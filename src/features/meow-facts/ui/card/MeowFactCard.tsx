@@ -17,8 +17,6 @@ const MeowFactCard: React.FC<MeowFactCardProps> = React.memo((props) => {
   const { id, isLiked, removeFact, setLikeToFact, text } = props;
   const navigate = useNavigate();
 
-  
-
   const onHandleClick = () => {
     navigate(`/detail/${id}`);
   };
