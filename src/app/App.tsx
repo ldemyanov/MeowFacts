@@ -1,13 +1,19 @@
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { Wrapper } from "../enities/ui";
-import { MainPage } from "../pages";
+import { DetailPage, MainPage } from "../pages";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Wrapper>
-        <MainPage />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/detail/:id" element={<DetailPage />} />
+          </Routes>
+        </BrowserRouter>
       </Wrapper>
     </Provider>
   );

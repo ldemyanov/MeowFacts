@@ -9,8 +9,13 @@ type LikeIconProps = {
 const LikeIcon: React.FC<LikeIconProps> = ({ isLiked, toLike }) => {
   const color = isLiked ? "#ff5d86" : "grey";
 
+  const onHandleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    toLike();
+  };
+
   return (
-    <Button className={css.btni} pill color="light" size="xs" onClick={toLike}>
+    <Button className={css.btni} pill color="light" size="xs" onClick={onHandleClick}>
       <svg
         className={css.icon}
         width="24"

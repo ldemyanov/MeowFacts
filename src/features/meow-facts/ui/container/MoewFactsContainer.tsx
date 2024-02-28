@@ -1,54 +1,56 @@
 import { useState } from "react";
 import MeowFactCard from "../card/MeowFactCard";
 import { Button } from "flowbite-react";
+import { MeowFact } from "../../api/types";
 
-type MeowFactWithLike = {
-  text: string;
+type MeowFactWithLike = MeowFact & {
   isLiked: boolean;
-  key: string;
 };
 
 type MeowFactsContainerProps = {
   facts: MeowFactWithLike[];
+  refetch: () => void;
 };
 
-const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts }) => {
+const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts, refetch }) => {
   const [factsWithLikes, setFactsWithLikes] = useState<MeowFactWithLike[]>(facts);
   const [isEnabledLikeFilter, setLikeFilter] = useState(false);
 
-  const removeFact = (key: string) => {
-    setFactsWithLikes((facts) => facts.filter((fact) => fact.key !== key));
+  const removeFact = (id: string) => {
+    setFactsWithLikes((facts) => facts.filter((fact) => fact._id !== id));
   };
 
-  const setLikeToFact = (key: string) => {
+  const setLikeToFact = (id: string) => {
     setFactsWithLikes((facts) =>
       facts.map((fact) => {
-        if (fact.key === key) {
+        if (fact._id === id) {
           const { isLiked, ...data } = fact;
           return { isLiked: !isLiked, ...data };
         }
         return fact;
       })
     );
+    return;
   };
-
-  factsWithLikes.sort((fact1, fact2) => fact1.text.length - fact2.text.length);
 
   return (
     <>
-      <div className="flex py-8">
+      <div className="flex py-8 gap-4">
         <Button pill color="light" onClick={() => setLikeFilter((val) => !val)}>
-          {isEnabledLikeFilter ? "Показать все" : "Показать только понравившиеся"}
+          {isEnabledLikeFilter ? "Show all" : "Show liked"}
+        </Button>
+        <Button pill color="light" onClick={() => (setLikeFilter(false), refetch())}>
+          Update
         </Button>
       </div>
-      <div className="lg:flex flex-wrap sm:grid md:grid-cols-2 sm:grid-cols-1 gap-6 mb-10">
-        {factsWithLikes.map(({ text, key, isLiked }) => {
+      <div className="flex flex-wrap gap-6 mb-10">
+        {factsWithLikes.map(({ text, isLiked, _id }) => {
           if (isEnabledLikeFilter && !isLiked) return;
           return (
             <MeowFactCard
               text={text}
-              key={key}
-              id={key}
+              key={_id}
+              id={_id}
               isLiked={isLiked}
               removeFact={removeFact}
               setLikeToFact={setLikeToFact}

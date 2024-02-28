@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { DetailMeowFact, MeowFact } from './types';
+import { CanImgResponse } from './types';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://cat-fact.herokuapp.com',
+  baseUrl: 'https://api.thecatapi.com/v1/images/',
 })
 
 type BaseQueryWithRepeats = BaseQueryFn<
@@ -25,23 +24,18 @@ const baseQueryWithRepeats: BaseQueryWithRepeats = async (args, api, extraOption
   return result;
 }
 
-export const meowfactsApi = createApi({
-  reducerPath: 'meowfacts',
+export const meowimgApi = createApi({
+  reducerPath: 'meowimages',
   baseQuery: baseQueryWithRepeats,
+  keepUnusedDataFor: 1,
   endpoints: (builder) => ({
-    getMeowFacts: builder.query<MeowFact[], void>({
+    getMeowImg: builder.query<CanImgResponse[], void>({
       query: () => ({
-        url: '/facts/random?animal_type=cat&amount=9',
+        url: 'search?limit=2',
         method: 'GET',
       })
     }),
-    getDetailMeowFact: builder.query<DetailMeowFact, { id: string }>({
-      query: ({ id }) => ({
-        url: `/facts/${id}`,
-        method: 'GET',
-      })
-    })
   }),
 })
 
-export const { useGetMeowFactsQuery, useGetDetailMeowFactQuery } = meowfactsApi;
+export const { useGetMeowImgQuery } = meowimgApi;

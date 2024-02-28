@@ -6,8 +6,13 @@ type RemoveIconProps = {
 };
 
 const RemoveIcon: React.FC<RemoveIconProps> = ({ toRemove }) => {
+  const onHandleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    toRemove();
+  };
+
   return (
-    <Button className={css.btni} pill color="light" size="xs" onClick={toRemove}>
+    <Button className={css.btni} pill color="light" size="xs" onClick={onHandleClick}>
       <svg
         className={css.icon}
         width="16"
