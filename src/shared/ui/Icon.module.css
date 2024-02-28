@@ -1,0 +1,8 @@
+.icon {
+  cursor: pointer;
+  transition: 0.5 ease;
+}
+
+.btni:hover {
+  transform: scale(1.15);
+}
