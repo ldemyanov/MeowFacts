@@ -19,11 +19,7 @@ const MeowFactsFeatcher: React.FC = () => {
     return <div>Что-то пошло не так, наверное факты о кошках съели собаки</div>;
   }
 
-  return (
-    <MeowFactsContainer
-      refetch={() => (responseFacts.refetch(), responseImgs.refetch())}
-    />
-  );
+  return <MeowFactsContainer refetch={() => (responseFacts.refetch(), responseImgs.refetch())} />;
 };
 
 export default MeowFactsFeatcher;

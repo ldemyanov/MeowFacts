@@ -16,9 +16,10 @@ const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id, imgId }) =>
   const meowImg = useGetMeowImgByIdQuery({ imgId });
   const navigate = useNavigate();
 
-  const returnToBackPage = () => {
-    navigate(-1);
-  };
+  const returnToBackPage = () => navigate(-1);
+
+  const factData = meowFactsResponse.data;
+  const imgData = meowImg.data;
 
   if (meowFactsResponse.isFetching || meowImg.isFetching) {
     return (
@@ -35,9 +36,6 @@ const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id, imgId }) =>
       </Card>
     );
   }
-
-  const factData = meowFactsResponse.data;
-  const imgData = meowImg.data;
 
   if (factData && imgData) {
     return (
@@ -62,9 +60,7 @@ const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id, imgId }) =>
           <BackButton className="w-fit y-fit ml-auto" toBack={returnToBackPage} />
         </div>
         <p>Date: {formatDate(factData.createdAt)}</p>
-
         <img src={imgData.url} width="500" alt="Random cat img" />
-
         <p className="text-xl font-semibold overflow-hidden">{factData.text}</p>
       </Card>
     );
