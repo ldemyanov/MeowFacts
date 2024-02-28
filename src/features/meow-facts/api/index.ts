@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { DetailMeowFact, MeowFact } from './types';
 
@@ -18,7 +17,6 @@ const baseQueryWithRepeats: BaseQueryWithRepeats = async (args, api, extraOption
   let result = await baseQuery(args, api, extraOptions);
 
   while (i++ < repeats && result.error) {
-    // console.error(result.error.data, result.error);
     result = await baseQuery(args, api, extraOptions);
   }
 

@@ -8,7 +8,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Wrapper>
-        <BrowserRouter>
+        <BrowserRouter basename="/MeowFacts/">
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/detail/:id" element={<DetailPage />} />
