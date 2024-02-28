@@ -11,7 +11,7 @@ const App: React.FC = () => {
         <BrowserRouter basename="/MeowFacts/">
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/detail/:id" element={<DetailPage />} />
+            <Route path="/detail/:id/:imgId" element={<DetailPage />} />
           </Routes>
         </BrowserRouter>
       </Wrapper>

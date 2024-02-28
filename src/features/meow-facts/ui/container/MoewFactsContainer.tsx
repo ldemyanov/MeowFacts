@@ -5,6 +5,8 @@ import { MeowFact } from "../../api/types";
 
 type MeowFactWithLike = MeowFact & {
   isLiked: boolean;
+  img: string;
+  imgId: string;
 };
 
 type MeowFactsContainerProps = {
@@ -44,7 +46,7 @@ const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts, refetch 
         </Button>
       </div>
       <div className="flex flex-wrap gap-6 mb-10">
-        {factsWithLikes.map(({ text, isLiked, _id }) => {
+        {factsWithLikes.map(({ text, isLiked, _id, img, imgId }) => {
           if (isEnabledLikeFilter && !isLiked) return;
           return (
             <MeowFactCard
@@ -54,6 +56,8 @@ const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts, refetch 
               isLiked={isLiked}
               removeFact={removeFact}
               setLikeToFact={setLikeToFact}
+              img={img}
+              imgId={imgId}
             />
           );
         })}

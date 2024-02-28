@@ -1,4 +1,4 @@
-export type CanImgResponse = {
+export type CatImgResponse = {
   "id": string,
   "url": string,
   "width": number,
