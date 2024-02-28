@@ -18,7 +18,7 @@ const baseQueryWithRepeats: BaseQueryWithRepeats = async (args, api, extraOption
   let result = await baseQuery(args, api, extraOptions);
 
   while (i++ < repeats && result.error) {
-    console.error(result.error.data, result.error);
+    // console.error(result.error.data, result.error);
     result = await baseQuery(args, api, extraOptions);
   }
 
