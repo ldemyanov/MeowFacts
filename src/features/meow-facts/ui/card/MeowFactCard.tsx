@@ -1,10 +1,12 @@
-import { Card } from "flowbite-react";
 import React from "react";
 import LikeIcon from "../../../../shared/ui/LikeIcon";
 import RemoveIcon from "../../../../shared/ui/RemoveIcon";
+import css from "./MewsFactCars.module.css";
+import { Card } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { trimString } from "../../../../shared/string";
-import css from "./MewsFactCars.module.css";
+import { useAppDispatch } from "../../../../app/store";
+import { removeFact, toggleLike } from "../../slice/meow-facts-slice";
 
 type MeowFactCardProps = {
   img: string;
@@ -12,12 +14,11 @@ type MeowFactCardProps = {
   text: string;
   isLiked: boolean;
   imgId: string;
-  removeFact: (key: string) => void;
-  setLikeToFact: (key: string) => void;
 };
 
 const MeowFactCard: React.FC<MeowFactCardProps> = React.memo((props) => {
-  const { id, isLiked, removeFact, setLikeToFact, text, img, imgId } = props;
+  const { id, isLiked, text, img, imgId } = props;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onHandleClick = () => {
@@ -32,8 +33,8 @@ const MeowFactCard: React.FC<MeowFactCardProps> = React.memo((props) => {
     >
       <p className="text-ellipsis overflow-hidden h-fit">{trimString(text)}</p>
       <div className="flex justify-end items-center gap-2 mt-auto">
-        <LikeIcon toLike={() => setLikeToFact(id)} isLiked={isLiked} />
-        <RemoveIcon toRemove={() => removeFact(id)} />
+        <LikeIcon toLike={() => dispatch(toggleLike({ id }))} isLiked={isLiked} />
+        <RemoveIcon toRemove={() => dispatch(removeFact({ id }))} />
       </div>
     </Card>
   );

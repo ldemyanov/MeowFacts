@@ -1,8 +1,8 @@
 import { Avatar, Card } from "flowbite-react";
 import { Loader } from "../../../../enities/ui";
-import { useGetDetailMeowFactQuery } from "../../api";
+import { useGetDetailMeowFactQuery } from "../../api/meow-facts-api";
 import { useNavigate } from "react-router-dom";
-import { useGetMeowImgByIdQuery } from "../../../randomCat/api";
+import { useGetMeowImgByIdQuery } from "../../api/random-img-api";
 import BackButton from "../../../../shared/ui/BackButton";
 import { formatDate } from "../../../../shared/time";
 

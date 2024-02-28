@@ -1,7 +1,7 @@
 import { MeowFactsContainer } from "..";
 import { Loader } from "../../../../enities/ui";
-import { useGetMeowImgQuery } from "../../../randomCat/api";
-import { useGetMeowFactsQuery } from "../../api";
+import { useGetMeowImgQuery } from "../../api/random-img-api";
+import { useGetMeowFactsQuery } from "../../api/meow-facts-api";
 
 const MeowFactsFeatcher: React.FC = () => {
   const responseFacts = useGetMeowFactsQuery();
@@ -22,12 +22,6 @@ const MeowFactsFeatcher: React.FC = () => {
   return (
     <MeowFactsContainer
       refetch={() => (responseFacts.refetch(), responseImgs.refetch())}
-      facts={responseFacts.data.map((fact, i) => ({
-        ...fact,
-        isLiked: false,
-        img: responseImgs.data[i].url,
-        imgId: responseImgs.data[i].id,
-      }))}
     />
   );
 };

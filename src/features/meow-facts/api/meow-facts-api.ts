@@ -31,7 +31,7 @@ export const meowfactsApi = createApi({
       query: () => ({
         url: '/facts/random?animal_type=cat&amount=9',
         method: 'GET',
-      })
+      }),
     }),
     getDetailMeowFact: builder.query<DetailMeowFact, { id: string }>({
       query: ({ id }) => ({
