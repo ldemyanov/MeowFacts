@@ -1,26 +1,27 @@
 import { Avatar, Card } from "flowbite-react";
 import { Loader } from "../../../../enities/ui";
-import { useGetDetailMeowFactQuery } from "../../api";
+import { useGetDetailMeowFactQuery } from "../../api/meow-facts-api";
 import { useNavigate } from "react-router-dom";
-import { useGetMeowImgQuery } from "../../../randomCat/api";
+import { useGetMeowImgByIdQuery } from "../../api/random-img-api";
 import BackButton from "../../../../shared/ui/BackButton";
 import { formatDate } from "../../../../shared/time";
 
 type MeowFactDetailCardProps = {
   id: string;
+  imgId: string;
 };
 
-const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id }) => {
-  const { data, isFetching, isError } = useGetDetailMeowFactQuery({ id });
-  const { refetch } = useGetMeowImgQuery();
+const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id, imgId }) => {
+  const meowFactsResponse = useGetDetailMeowFactQuery({ id });
+  const meowImg = useGetMeowImgByIdQuery({ imgId });
   const navigate = useNavigate();
 
-  const returnToBackPage = () => {
-    refetch();
-    navigate(-1);
-  };
+  const returnToBackPage = () => navigate(-1);
 
-  if (isFetching) {
+  const factData = meowFactsResponse.data;
+  const imgData = meowImg.data;
+
+  if (meowFactsResponse.isFetching || meowImg.isFetching) {
     return (
       <Card className="flex w-fit h-fit max-w-xl">
         <Loader />
@@ -28,7 +29,7 @@ const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id }) => {
     );
   }
 
-  if (isError) {
+  if (meowFactsResponse.isError) {
     return (
       <Card className="flex w-fit h-fit max-w-xl">
         <p>Error</p>
@@ -36,35 +37,36 @@ const MeowFactDetailCard: React.FC<MeowFactDetailCardProps> = ({ id }) => {
     );
   }
 
-  if (data) {
+  if (factData && imgData) {
     return (
       <Card className="flex w-fit h-fit max-w-xl">
         <div className="flex items-center gap-x-4">
-          {data.user && (
+          {factData.user && (
             <>
-              {data.user.photo && (
+              {factData.user.photo && (
                 <div className="w-10 h-10">
                   <Avatar
-                    img={data.user.photo}
-                    alt={`image of ${data.user.name.first} ${data.user.name.last}`}
+                    img={factData.user.photo}
+                    alt={`image of ${factData.user.name.first} ${factData.user.name.last}`}
                     rounded
                   />
                 </div>
               )}
               <div>
-                {data.user.name.first} {data.user.name.last}
+                {factData.user.name.first} {factData.user.name.last}
               </div>
             </>
           )}
           <BackButton className="w-fit y-fit ml-auto" toBack={returnToBackPage} />
         </div>
-        <p>Date: {formatDate(data.createdAt)}</p>
-        <p className="text-xl font-semibold overflow-hidden">{data.text}</p>
+        <p>Date: {formatDate(factData.createdAt)}</p>
+        <img src={imgData.url} width="500" alt="Random cat img" />
+        <p className="text-xl font-semibold overflow-hidden">{factData.text}</p>
       </Card>
     );
   }
 
-  return null;
+  return;
 };
 
 export default MeowFactDetailCard;

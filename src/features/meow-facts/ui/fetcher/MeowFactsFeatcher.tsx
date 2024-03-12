@@ -1,23 +1,25 @@
 import { MeowFactsContainer } from "..";
 import { Loader } from "../../../../enities/ui";
-import { useGetMeowFactsQuery } from "../../api";
+import { useGetMeowImgQuery } from "../../api/random-img-api";
+import { useGetMeowFactsQuery } from "../../api/meow-facts-api";
 
 const MeowFactsFeatcher: React.FC = () => {
-  const { data, isFetching, isError, refetch } = useGetMeowFactsQuery();
+  const responseFacts = useGetMeowFactsQuery();
+  const responseImgs = useGetMeowImgQuery();
 
-  if (isFetching) {
+  if (responseFacts.isFetching || responseImgs.isFetching) {
     return <Loader />;
   }
 
-  if (isError) {
+  if (responseFacts.isError || responseImgs.isError) {
     return <div>Error</div>;
   }
 
-  if (!data || data.length === 0) {
+  if (!responseFacts.data || !responseImgs.data || responseFacts.data.length === 0 || responseImgs.data.length === 0) {
     return <div>Что-то пошло не так, наверное факты о кошках съели собаки</div>;
   }
 
-  return <MeowFactsContainer refetch={refetch} facts={data.map((fact) => ({ ...fact, isLiked: false }))} />;
+  return <MeowFactsContainer refetch={() => (responseFacts.refetch(), responseImgs.refetch())} />;
 };
 
 export default MeowFactsFeatcher;

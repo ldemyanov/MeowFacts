@@ -3,7 +3,7 @@ import { MeowFactsFeatcher } from "../../features/meow-facts/ui";
 const MainPage: React.FC = () => {
   return (
     <>
-      <h1 className="text-5xl font-bold tracking-tight text-gray-900 pt-7 pb-3">Facts about CATS</h1>
+      <h1 className="text-5xl font-bold tracking-tight text-gray-900 pt-7 pb-3">Cats Facts</h1>
       <MeowFactsFeatcher />
     </>
   );

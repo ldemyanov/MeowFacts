@@ -9,10 +9,15 @@ export type MeowFact = {
   user: string,
   text: string,
   type: string,
-  deleted: false,
+  deleted: boolean,
   createdAt: string,
   updatedAt: string,
   __v: number;
+}
+
+export type AppMeowFact = MeowFact & {
+  isLiked: boolean,
+  indexImg: number,
 }
 
 export type DetailMeowFact = {
@@ -36,3 +41,11 @@ export type DetailMeowFact = {
   updatedAt: string,
   __v: 0
 }
+
+export type CatImgResponse = {
+  id: string,
+  url: string,
+  width: number,
+  height: number,
+}
+

@@ -1,5 +1,5 @@
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { CanImgResponse } from './types';
+import { CatImgResponse } from './types';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://api.thecatapi.com/v1/images/',
@@ -27,15 +27,20 @@ const baseQueryWithRepeats: BaseQueryWithRepeats = async (args, api, extraOption
 export const meowimgApi = createApi({
   reducerPath: 'meowimages',
   baseQuery: baseQueryWithRepeats,
-  keepUnusedDataFor: 1,
   endpoints: (builder) => ({
-    getMeowImg: builder.query<CanImgResponse[], void>({
+    getMeowImg: builder.query<CatImgResponse[], void>({
       query: () => ({
-        url: 'search?limit=2',
+        url: 'search?limit=10',
         method: 'GET',
       })
     }),
+    getMeowImgById: builder.query<CatImgResponse, { imgId: string }>({
+      query: ({ imgId }) => ({
+        url: imgId,
+        method: 'GET',
+      })
+    })
   }),
 })
 
-export const { useGetMeowImgQuery } = meowimgApi;
+export const { useGetMeowImgQuery, useGetMeowImgByIdQuery } = meowimgApi;

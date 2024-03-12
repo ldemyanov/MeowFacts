@@ -1,37 +1,15 @@
 import { useState } from "react";
 import MeowFactCard from "../card/MeowFactCard";
 import { Button } from "flowbite-react";
-import { MeowFact } from "../../api/types";
-
-type MeowFactWithLike = MeowFact & {
-  isLiked: boolean;
-};
+import { useAppSelector } from "../../../../app/store";
 
 type MeowFactsContainerProps = {
-  facts: MeowFactWithLike[];
   refetch: () => void;
 };
 
-const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts, refetch }) => {
-  const [factsWithLikes, setFactsWithLikes] = useState<MeowFactWithLike[]>(facts);
+const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ refetch }) => {
   const [isEnabledLikeFilter, setLikeFilter] = useState(false);
-
-  const removeFact = (id: string) => {
-    setFactsWithLikes((facts) => facts.filter((fact) => fact._id !== id));
-  };
-
-  const setLikeToFact = (id: string) => {
-    setFactsWithLikes((facts) =>
-      facts.map((fact) => {
-        if (fact._id === id) {
-          const { isLiked, ...data } = fact;
-          return { isLiked: !isLiked, ...data };
-        }
-        return fact;
-      })
-    );
-    return;
-  };
+  const { facts, images } = useAppSelector((state) => state.meowSlice);
 
   return (
     <>
@@ -44,7 +22,7 @@ const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts, refetch 
         </Button>
       </div>
       <div className="flex flex-wrap gap-6 mb-10">
-        {factsWithLikes.map(({ text, isLiked, _id }) => {
+        {facts.map(({ text, isLiked, _id, indexImg }) => {
           if (isEnabledLikeFilter && !isLiked) return;
           return (
             <MeowFactCard
@@ -52,8 +30,8 @@ const MeowFactsContainer: React.FC<MeowFactsContainerProps> = ({ facts, refetch 
               key={_id}
               id={_id}
               isLiked={isLiked}
-              removeFact={removeFact}
-              setLikeToFact={setLikeToFact}
+              img={images[indexImg].url}
+              imgId={images[indexImg].id}
             />
           );
         })}
